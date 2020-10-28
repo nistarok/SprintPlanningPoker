@@ -22,11 +22,11 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000"
+    backgroundColor: "#2980b9"
   },
   title: {
     fontSize: 30,
     textAlign: "center",
-    color: '#FF6600'
+    color: '#FFF'
   },
 })

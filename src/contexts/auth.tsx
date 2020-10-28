@@ -12,7 +12,7 @@ interface UserData {
 
 interface AuthContextData {
   signed: boolean;
-  user?: {
+  user: {
     displayName?: string;
     email?: string;
     uid: string;
