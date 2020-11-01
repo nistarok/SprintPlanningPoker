@@ -3,7 +3,11 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 
 import { useAuth } from "../../contexts/auth";
 import firestore from '@react-native-firebase/firestore';
+import { RectButton } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/AntDesign'
+import { useNavigation } from '@react-navigation/native';
 
+Icon.loadFont()
 
 
 interface UserData {
@@ -14,34 +18,43 @@ interface UserData {
 export default function Sprints() {
   const {user} = useAuth();
 
-  async function getFireStore() {
-    firestore()
-    .collection("Users")
-    .doc(user.uid)
-    .get()
-    .then((res)=> {
-      const { email, name } = res.data() as UserData
-      console.log(email, name)
-    })
-  }
-  async function createFirestore() {
-    firestore()
-    .collection("Users")
-    .doc(user.uid)
-    .set({
-      name: user ? user.displayName : "",
-      email: user ? user.email : "",
-    }).then((res) =>{
-      console.log(res)
-    })
-  }
+  const navigation = useNavigation();
 
-  // createFirestore()
-  getFireStore()
+  // async function getFireStore() {
+  //   firestore()
+  //   .collection("Users")
+  //   .doc(user.uid)
+  //   .get()
+  //   .then((res)=> {
+  //     const { email, name } = res.data() as UserData
+  //     console.log(email, name)
+  //   })
+  // }
+  // async function createFirestore() {
+  //   firestore()
+  //   .collection("Users")
+  //   .doc(user.uid)
+  //   .set({
+  //     name: user ? user.displayName : "",
+  //     email: user ? user.email : "",
+  //   }).then((res) =>{
+  //     console.log(res)
+  //   })
+  // }
 
+  // // createFirestore()
+  // getFireStore()
+
+  function handleNewSprint() {
+    navigation.navigate('SprintsCreate')
+
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}> Sprints </Text>
+      <RectButton style={styles.createSprintButton} onPress={handleNewSprint}>
+        <Icon color={"#fff"} size={20} name='plus' />
+      </RectButton>
     </View>
   )
 }
@@ -50,11 +63,22 @@ export default function Sprints() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2980b9"
+    backgroundColor: "#F0F2F5"
   },
   title: {
     fontSize: 30,
     textAlign: "center",
-    color: '#FFF'
+    color: '#2F1E21'
   },
+  createSprintButton: {
+    position: 'absolute',
+    right: 24,
+    bottom: 32,
+    width: 56,
+    height: 56,
+    backgroundColor: "#1877F2",
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 })
