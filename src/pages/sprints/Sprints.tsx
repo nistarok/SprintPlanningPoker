@@ -5,31 +5,33 @@ import { useAuth } from "../../contexts/auth";
 import firestore from '@react-native-firebase/firestore';
 import { RectButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 Icon.loadFont()
 
 
-interface UserData {
-  name: string;
-  email: string;
+interface SprintData {
+  title: string;
+  startDate: string;
+  userId: string;
 }
 
 export default function Sprints() {
   const {user} = useAuth();
+  const [spints, setSprints] = useState<SprintData[]>([])
 
   const navigation = useNavigation();
 
-  // async function getFireStore() {
-  //   firestore()
-  //   .collection("Users")
-  //   .doc(user.uid)
-  //   .get()
-  //   .then((res)=> {
-  //     const { email, name } = res.data() as UserData
-  //     console.log(email, name)
-  //   })
-  // }
+  async function getFireStore() {
+    firestore()
+    .collection("Sprints")
+    .get()
+    .then((res)=> {
+      console.log(res.docs)
+      // setSprints
+    })
+  }
+
   // async function createFirestore() {
   //   firestore()
   //   .collection("Users")
@@ -43,7 +45,10 @@ export default function Sprints() {
   // }
 
   // // createFirestore()
-  // getFireStore()
+  useFocusEffect(() => {
+    getFireStore()
+  })
+
 
   function handleNewSprint() {
     navigation.navigate('SprintsCreate')
